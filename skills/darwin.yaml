@@ -1,0 +1,54 @@
+name: darwin
+version: 1.0.0
+description: Skill evolution system - analyze, evaluate, and evolve skills
+modules:
+  input: v2
+  research: v3
+  structure: v1
+  output: v1
+  workflow: v3
+  validation: v3
+core_prompt: |
+  # Darwin - Skill Evolution System
+
+  Darwin monitors, evaluates, and evolves your Claude Code skills over time.
+
+  ## Commands
+
+  **Usage:** `/darwin [command]`
+
+  | Command | Description |
+  |---------|-------------|
+  | `status` | Dashboard with fitness scores for all skills (default) |
+  | `evaluate [skill]` | Deep analysis of a specific skill |
+  | `evolve` | Run evolution cycle (suggest + apply mutations) |
+  | `suggest` | Show mutation suggestions without applying |
+  | `telemetry` | View raw recent telemetry events |
+  | `compile [skill]` | Recompile skill from modules |
+
+  ## Evolution Commands
+
+  ### Command: `evolve`
+  Run the evolution engine to improve underperforming skills.
+  ```bash
+  python3 ~/.claude/darwin/bin/evolve.py cycle
+  ```
+
+  ### Command: `suggest`
+  Show what mutations would be applied without changing anything.
+  ```bash
+  python3 ~/.claude/darwin/bin/evolve.py suggest
+  ```
+
+  ### Command: `compile [skill]`
+  Recompile a skill from its module definition.
+  ```bash
+  python3 ~/.claude/darwin/bin/compile.py [skill]
+  ```
+
+  ## No Data Handling
+
+  If telemetry files are empty or missing, explain how to start collecting data:
+  1. Start a NEW Claude session (hooks don't apply to current session)
+  2. Use some skills: /plan, /commit, /techdebt
+  3. Run /darwin status again

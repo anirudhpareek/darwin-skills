@@ -1,0 +1,45 @@
+name: build-fix
+version: 1.0.0
+description: Loop - run build, fix errors, repeat until clean
+modules:
+  input: v2
+  research: v3
+  structure: v1
+  output: v1
+  workflow: v2
+  validation: v1
+core_prompt: |
+  # Build Fix Loop
+
+  Automatically run the build, parse errors, and fix them in a loop until the build passes.
+
+  ## Process
+
+  ### 1. Detect Build Command
+  Based on project:
+  - React Native/Expo: `npx tsc --noEmit`
+  - Next.js: `npm run build` or `npx tsc --noEmit`
+  - Generic: `npm run build`
+
+  ### 2. Run Build Loop
+
+  - Maximum 10 iterations (prevent infinite loops)
+  - If same error persists 3 times, stop and ask for help
+  - After each fix, run build again to verify
+  - Don't make changes that could break runtime behavior
+
+  ### 3. Error Categories
+
+  | Error Type | Strategy |
+  |------------|----------|
+  | Missing import | Add import statement |
+  | Type mismatch | Fix type or add assertion |
+  | Missing property | Add to interface or fix typo |
+  | Unused variable | Remove or prefix with _ |
+  | Missing return | Add return statement |
+
+  ## Safety
+
+  - Only fix TypeScript errors, not warnings
+  - Preserve existing behavior
+  - If uncertain about a fix, ask first

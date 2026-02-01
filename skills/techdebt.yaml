@@ -1,0 +1,51 @@
+name: techdebt
+version: 1.0.2
+description: Find code smells, duplicates, and TODOs
+modules:
+  input: v2
+  research: v1
+  structure: v1
+  output: v1
+  workflow: v1
+  validation: v3
+core_prompt: "# Tech Debt Analysis\n\nAnalyze the codebase for technical debt, code\
+  \ smells, and areas for improvement.\n\n## Analysis Categories\n\n### 1. TODOs &\
+  \ FIXMEs\nSearch for and catalog all TODO, FIXME, HACK, XXX comments.\n\n### 2.\
+  \ Code Duplication\nIdentify similar code patterns that could be abstracted.\n\n\
+  ### 3. Code Smells\n\n| Smell | What to Look For |\n|-------|------------------|\n\
+  | Long functions | Functions > 50 lines |\n| Large files | Files > 300 lines |\n\
+  | Deep nesting | > 3 levels of indentation |\n| Magic numbers | Unexplained numeric\
+  \ literals |\n| Any types | TypeScript `any` usage |\n| Console logs | Leftover\
+  \ debugging |\n\n### 4. Pattern Violations\nDeviations from project conventions\
+  \ (per CLAUDE.md)\n\n## Output Template\n\n```\n\u2550\u2550\u2550\u2550\u2550\u2550\
+  \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+  \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+  \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+  \u2550\u2550\u2550\nTECH DEBT REPORT: [Project/Path]\n\u2550\u2550\u2550\u2550\u2550\
+  \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+  \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+  \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+  \u2550\u2550\u2550\u2550\n\nSUMMARY\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \u2500\n- TODOs/FIXMEs: X items\n- Code Smells: X items\n- Duplications: X instances\n\
+  \nDETAILS\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n[Categorized\
+  \ findings with file:line references]\n\nQUICK WINS\n\u2500\u2500\u2500\u2500\u2500\
+  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \u2500\u2500\u2500\u2500\nItems that can be fixed in < 5 minutes\n\n\u2550\u2550\
+  \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+  \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+  \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+  \u2550\u2550\u2550\u2550\u2550\u2550\u2550\n```\n"
+fitness_history:
+- timestamp: '2026-02-01T13:36:48Z'
+  mutation: "input: v2 \u2192 v1"
+- timestamp: '2026-02-01T13:41:03Z'
+  mutation: "input: v1 \u2192 v2"
+last_compiled: '2026-02-01T13:41:03Z'

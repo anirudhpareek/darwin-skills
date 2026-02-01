@@ -1,0 +1,40 @@
+name: plan
+version: 1.0.0
+description: Generate structured implementation plans
+modules:
+  input: v1
+  research: v2
+  structure: v1
+  output: v1
+  workflow: v1
+  validation: v3
+core_prompt: "# Implementation Plan Generator\n\nGenerate a detailed implementation\
+  \ plan for the given feature or task.\n\n## Analysis Steps\n\n1. **Understand the\
+  \ Request**\n   - What is being asked?\n   - What is the expected outcome?\n   -\
+  \ What are the constraints?\n\n2. **Explore the Codebase**\n   - Search for related\
+  \ files and patterns\n   - Understand existing conventions\n   - Identify dependencies\n\
+  \n3. **Generate Plan**\n\n## Plan Template\n\n```\n\u2550\u2550\u2550\u2550\u2550\
+  \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+  \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+  \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+  \u2550\u2550\u2550\u2550\nIMPLEMENTATION PLAN: [Feature Name]\n\u2550\u2550\u2550\
+  \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+  \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+  \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+  \u2550\u2550\u2550\u2550\u2550\u2550\n\n## 1. Requirements Analysis\n\n**Goal:**\
+  \ [1-2 sentence summary]\n\n**User Stories:**\n- As a user, I want to...\n\n**Acceptance\
+  \ Criteria:**\n- [ ] Criterion 1\n- [ ] Criterion 2\n\n---\n\n## 2. Files to Modify/Create\n\
+  \n| Action | File | Purpose |\n|--------|------|---------|\n| CREATE | path/to/file.tsx\
+  \ | Description |\n| MODIFY | path/to/existing.tsx | Description |\n\n---\n\n##\
+  \ 3. Implementation Steps\n\n### Step 1: [Name]\n**Files:** `file1.tsx`, `file2.tsx`\n\
+  **Details:**\n- Specific change 1\n- Specific change 2\n\n---\n\n## 4. Testing Strategy\n\
+  \n**Manual Testing:**\n- [ ] Test case 1\n\n---\n\n## 5. Risks & Unknowns\n\n| Risk\
+  \ | Likelihood | Mitigation |\n|------|------------|------------|\n| Risk 1 | Low/Med/High\
+  \ | How to handle |\n\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+  \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+  \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\
+  \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\
+  ```\n\n## Guidelines\n\n1. Be specific about file paths and changes\n2. Consider\
+  \ edge cases and error handling\n3. Keep scope focused - avoid feature creep\n"
+fitness_history: []
+last_compiled: '2026-02-01T13:36:26Z'

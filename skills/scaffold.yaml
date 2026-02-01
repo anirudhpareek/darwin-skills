@@ -1,0 +1,63 @@
+name: scaffold
+version: 1.0.2
+description: Generate boilerplate matching project patterns
+modules:
+  input: v1
+  research: v3
+  structure: v2
+  output: v3
+  workflow: v3
+  validation: v3
+core_prompt: '# Scaffold Generator
+
+
+  Generate new files matching existing project patterns and conventions.
+
+
+  ## Input
+
+
+  **What to scaffold:** $ARGUMENTS
+
+
+  Examples:
+
+  - `screen ProfileScreen` - New screen
+
+  - `component Avatar` - New component
+
+  - `hook useDebounce` - New hook
+
+
+  ## Process
+
+
+  1. Detect project type from current directory
+
+  2. Analyze existing similar files for patterns
+
+  3. Generate matching boilerplate
+
+  4. Create file and update barrel exports if applicable
+
+
+  ## Templates
+
+
+  Generate code that matches the project''s:
+
+  - Naming conventions
+
+  - File structure
+
+  - Import patterns
+
+  - Type definitions
+
+  '
+fitness_history:
+- timestamp: '2026-02-01T13:36:48Z'
+  mutation: "input: v1 \u2192 v2"
+- timestamp: '2026-02-01T13:41:03Z'
+  mutation: "input: v2 \u2192 v1"
+last_compiled: '2026-02-01T13:41:03Z'

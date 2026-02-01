@@ -1,0 +1,223 @@
+# Darwin Module Registry
+# Reusable prompt fragments that can be composed into skills
+
+version: "1.0.0"
+
+modules:
+
+  # ═══════════════════════════════════════════════════
+  # INPUT HANDLING - How to process $ARGUMENTS
+  # ═══════════════════════════════════════════════════
+  input:
+    v1:
+      name: "ask-if-empty"
+      description: "Ask user for input if $ARGUMENTS is empty"
+      prompt: |
+        ## Input
+
+        **Task:** $ARGUMENTS
+
+        If no arguments provided, ask the user what they want to accomplish.
+
+    v2:
+      name: "default-scope"
+      description: "Use current directory as default scope"
+      prompt: |
+        ## Input
+
+        **Scope:** $ARGUMENTS
+
+        If no arguments provided, analyze the current project directory.
+
+  # ═══════════════════════════════════════════════════
+  # RESEARCH - How to gather context
+  # ═══════════════════════════════════════════════════
+  research:
+    v1:
+      name: "grep-then-read"
+      description: "Search first, then read relevant files"
+      prompt: |
+        ## Research Steps
+
+        1. **Search for patterns**
+           - Use Grep to find related implementations
+           - Look for similar naming conventions
+           - Identify test files if they exist
+
+        2. **Read relevant files**
+           - Read files that match the search results
+           - Understand the existing patterns
+           - Note any dependencies
+
+    v2:
+      name: "claude-md-first"
+      description: "Start with CLAUDE.md for conventions"
+      prompt: |
+        ## Research Steps
+
+        1. **Read project conventions**
+           - Read CLAUDE.md for project-specific patterns
+           - Note any "Do NOT" sections
+           - Understand the preferred style
+
+        2. **Search codebase**
+           - Search for similar implementations
+           - Follow conventions from CLAUDE.md
+           - Identify dependencies
+
+    v3:
+      name: "minimal"
+      description: "Skip research, act on input directly"
+      prompt: |
+        ## Context
+
+        Proceed directly with the task. Only search if explicitly needed.
+
+  # ═══════════════════════════════════════════════════
+  # STRUCTURE - How to organize output
+  # ═══════════════════════════════════════════════════
+  structure:
+    v1:
+      name: "tables"
+      description: "Use markdown tables for structured data"
+      prompt: |
+        Use markdown tables for:
+        - File lists with actions (CREATE, MODIFY, DELETE)
+        - Metrics and scores
+        - Comparisons and options
+
+        Example:
+        | Action | File | Purpose |
+        |--------|------|---------|
+        | CREATE | src/new.tsx | Description |
+
+    v2:
+      name: "bullets"
+      description: "Use bullet points for all lists"
+      prompt: |
+        Use bullet points for all structured data:
+        - Simple, scannable format
+        - Nested bullets for hierarchy
+        - Checkboxes [ ] for actionable items
+
+    v3:
+      name: "numbered"
+      description: "Use numbered steps for sequential processes"
+      prompt: |
+        Use numbered lists for sequential processes:
+        1. First step
+        2. Second step
+        3. Third step
+
+        Use sub-numbers (1.1, 1.2) for nested steps.
+
+  # ═══════════════════════════════════════════════════
+  # OUTPUT - Visual formatting style
+  # ═══════════════════════════════════════════════════
+  output:
+    v1:
+      name: "ascii-headers"
+      description: "Use ASCII art dividers and headers"
+      prompt: |
+        ## Output Format
+
+        Use ASCII dividers for sections:
+        ```
+        ═══════════════════════════════════════════════════
+        TITLE: [Name]
+        ═══════════════════════════════════════════════════
+
+        SECTION
+        ───────────────────────────────────────────────────
+        Content here...
+
+        ═══════════════════════════════════════════════════
+        ```
+
+    v2:
+      name: "minimal"
+      description: "Clean markdown, no decorations"
+      prompt: |
+        ## Output Format
+
+        Use clean markdown without decorative elements:
+        - Standard headers (## ###)
+        - Simple horizontal rules (---)
+        - No ASCII art
+
+    v3:
+      name: "compact"
+      description: "Minimal output, maximum density"
+      prompt: |
+        ## Output Format
+
+        Keep output extremely concise:
+        - No explanatory text
+        - Data only, no decoration
+        - Under 30 lines total
+
+  # ═══════════════════════════════════════════════════
+  # WORKFLOW - Post-output actions
+  # ═══════════════════════════════════════════════════
+  workflow:
+    v1:
+      name: "offer-execute"
+      description: "Offer to execute the plan/action"
+      prompt: |
+        ## Next Steps
+
+        After generating output, offer to:
+        - Execute the plan immediately
+        - Export for review
+        - Modify based on feedback
+
+    v2:
+      name: "confirm-then-act"
+      description: "Always confirm before taking action"
+      prompt: |
+        ## Workflow
+
+        1. Show what will be done
+        2. Ask for confirmation
+        3. Execute only after approval
+
+    v3:
+      name: "auto-execute"
+      description: "Execute automatically without confirmation"
+      prompt: |
+        ## Workflow
+
+        Execute the action immediately. Only pause if:
+        - Destructive operation detected
+        - Ambiguity in requirements
+
+  # ═══════════════════════════════════════════════════
+  # VALIDATION - Pre-action checks
+  # ═══════════════════════════════════════════════════
+  validation:
+    v1:
+      name: "type-check"
+      description: "Run TypeScript checks before action"
+      prompt: |
+        ## Pre-action Checks
+
+        Before proceeding, verify:
+        - [ ] TypeScript compiles (`npx tsc --noEmit`)
+        - [ ] No type errors introduced
+
+    v2:
+      name: "full-checks"
+      description: "Comprehensive validation"
+      prompt: |
+        ## Pre-action Checks
+
+        Before proceeding, verify:
+        - [ ] TypeScript compiles
+        - [ ] No console.logs in production code
+        - [ ] No `any` types added
+        - [ ] Follows project conventions
+
+    v3:
+      name: "none"
+      description: "Skip validation"
+      prompt: ""

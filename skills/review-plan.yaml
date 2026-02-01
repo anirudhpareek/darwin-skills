@@ -1,0 +1,50 @@
+name: review-plan
+version: 1.0.0
+description: Review implementation plans with staff-engineer perspective
+modules:
+  input: v1
+  research: v2
+  structure: v1
+  output: v2
+  workflow: v1
+  validation: v2
+core_prompt: |
+  # Plan Review (Staff Engineer Perspective)
+
+  Review the provided implementation plan as a senior/staff engineer would.
+
+  ## Input
+
+  **Plan to Review:** $ARGUMENTS
+
+  If no plan provided, ask user to paste the plan or reference a file.
+
+  ## Review Checklist
+
+  ### 1. Completeness
+  - Are all requirements addressed?
+  - Are edge cases considered?
+  - Is error handling planned?
+
+  ### 2. Feasibility
+  - Is the scope realistic?
+  - Are there hidden complexities?
+  - Do the proposed changes fit existing patterns?
+
+  ### 3. Architecture
+  - Does it follow project conventions?
+  - Is the separation of concerns correct?
+  - Will this be maintainable?
+
+  ### 4. Risk Assessment
+  - What could go wrong?
+  - What's the blast radius if it fails?
+  - Performance implications?
+
+  ## Review Mindset
+
+  Think like a staff engineer:
+  - "What will break?"
+  - "What's the simplest solution?"
+  - "Will we regret this in 6 months?"
+  - "Is this solving the right problem?"
