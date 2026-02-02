@@ -41,7 +41,7 @@ else
     echo "Downloading Darwin..."
     TEMP_DIR=$(mktemp -d)
     cd "$TEMP_DIR"
-    curl -fsSL https://github.com/anirudhpbu-bit/darwin-skills/archive/main.tar.gz | tar xz
+    curl -fsSL https://github.com/anirudhpareek/darwin-skills/archive/main.tar.gz | tar xz
     SCRIPT_DIR="$TEMP_DIR/darwin-skills-main"
 fi
 

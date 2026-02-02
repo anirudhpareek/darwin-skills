@@ -21,13 +21,13 @@ Darwin is an autonomous evolution system for Claude Code skills. It monitors how
 ## Installation
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/anirudhpbu-bit/darwin-skills/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/anirudhpareek/darwin-skills/main/install.sh | bash
 ```
 
 Or clone and install manually:
 
 ```bash
-git clone https://github.com/anirudhpbu-bit/darwin-skills.git
+git clone https://github.com/anirudhpareek/darwin-skills.git
 cd darwin-skills
 ./install.sh
 ```
