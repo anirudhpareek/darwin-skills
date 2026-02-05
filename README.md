@@ -62,7 +62,7 @@ cd darwin-skills
 | `/techdebt` | Find code smells and TODOs |
 | `/scaffold` | Generate boilerplate matching patterns |
 | `/build-fix` | Loop build until clean |
-| `/rams` | Accessibility and design review |
+| `/design-audit` | Accessibility and design review |
 
 ## Usage
 
@@ -85,6 +85,94 @@ After installation, restart Claude Code and use skills normally:
 
 # Manually trigger evolution
 /darwin evolve
+```
+
+### Example Output
+
+**`/darwin status`** - View fitness scores for all skills:
+
+```
+═══════════════════════════════════════════════════
+DARWIN EVOLUTION STATUS
+═══════════════════════════════════════════════════
+
+DATA: 166 skill invocations │ Period: last 7 days
+
+SKILL FITNESS
+───────────────────────────────────────────────────
+  1. /commit       █████░░░░░  0.56  [50 uses] ✓
+  2. /plan         █████░░░░░  0.54  [38 uses] ✓
+  3. /darwin       ████░░░░░░  0.47  [ 2 uses] ↓
+  4. /build-fix    ████░░░░░░  0.46  [17 uses] ↓
+  5. /scaffold     ████░░░░░░  0.45  [22 uses] ↓
+  6. /techdebt     ████░░░░░░  0.42  [24 uses] ↓
+  7. /review-plan  ███░░░░░░░  0.39  [ 4 uses] ↓
+  8. /design-audit ███░░░░░░░  0.34  [ 9 uses] ✗
+
+LEGEND: ★ top performer  ✓ healthy  ↓ underperforming  ✗ failing
+═══════════════════════════════════════════════════
+```
+
+**`/darwin suggest`** - See mutation suggestions:
+
+```
+═══════════════════════════════════════════════════
+DARWIN EVOLUTION SUGGESTIONS
+═══════════════════════════════════════════════════
+
+/design-audit (fitness: 0.34, failing)
+───────────────────────────────────────────────────
+  [MUTATE] input: v1 → v2
+           Try alternative variant
+  [MUTATE] research: v2 → v1
+           Try alternative variant
+
+/techdebt (fitness: 0.42, underperforming)
+───────────────────────────────────────────────────
+  [MUTATE] input: v2 → v1
+           Try alternative variant
+
+Total suggestions: 18
+
+Run 'python evolve.py apply' to apply top suggestion per skill.
+═══════════════════════════════════════════════════
+```
+
+**`/darwin evolve`** - Apply mutations:
+
+```
+═══════════════════════════════════════════════════
+DARWIN EVOLUTION - APPLYING MUTATIONS
+═══════════════════════════════════════════════════
+
+Evolving /design-audit...
+  input: v1 → v2
+  Reason: Try alternative variant
+  ✓ Mutation applied and recompiled
+
+Evolving /techdebt...
+  input: v2 → v1
+  Reason: Try alternative variant
+  ✓ Mutation applied and recompiled
+
+───────────────────────────────────────────────────
+Applied 6 mutation(s)
+Changelogs updated in ~/.claude/darwin/changelogs/
+═══════════════════════════════════════════════════
+```
+
+**Changelog** (`~/.claude/darwin/changelogs/design-audit.md`):
+
+```markdown
+# /design-audit Evolution Changelog
+
+## v1.1.1 (2026-02-05 21:59 UTC)
+
+**Fitness:** 0.34
+
+**Mutations:**
+- `input`: v1 → v2 (mutate)
+  - Reason: Try alternative variant
 ```
 
 ### Weekly Automation (macOS)
