@@ -87,12 +87,43 @@ def classify_skill(fitness: float) -> str:
         return "failing"
 
 
+def get_skill_fitness(evaluation: dict, skill_name: str) -> Optional[float]:
+    """Get fitness score for a specific skill from evaluation results."""
+    for skill in evaluation.get('skills', []):
+        if skill.get('skill') == skill_name:
+            return skill.get('fitness')
+    return None
+
+
+def get_recently_tried_variants(skill_def: dict) -> set:
+    """Extract variants that were recently tried to prevent oscillation."""
+    recent_history = skill_def.get('fitness_history', [])[-10:]
+    recently_tried = set()
+    for h in recent_history:
+        mutation_str = h.get('mutation', '')
+        if '→' in mutation_str:
+            # Extract "module: old → new" format
+            parts = mutation_str.split('→')
+            if len(parts) == 2:
+                # Get the "to" version (after arrow)
+                to_version = parts[1].strip()
+                # Get module name from "module: old" part
+                module_parts = parts[0].split(':')
+                if len(module_parts) == 2:
+                    module_name = module_parts[0].strip()
+                    recently_tried.add(f"{module_name}:{to_version}")
+    return recently_tried
+
+
 def suggest_mutations(skill_name: str, skill_def: dict, fitness: float,
                       registry: dict, top_performers: List[dict]) -> List[dict]:
     """Suggest module mutations for a skill."""
     suggestions = []
     current_modules = skill_def.get('modules', {})
     classification = classify_skill(fitness)
+
+    # Track recently tried variants to prevent oscillation
+    recently_tried = get_recently_tried_variants(skill_def)
 
     if classification in ["healthy", "top_performer"]:
         return []  # Don't mutate successful skills
@@ -105,6 +136,10 @@ def suggest_mutations(skill_name: str, skill_def: dict, fitness: float,
             top_modules = top_def.get('modules', {})
 
             for module_type, top_version in top_modules.items():
+                variant_key = f"{module_type}:{top_version}"
+                # Skip if this variant was recently tried (prevents oscillation)
+                if variant_key in recently_tried:
+                    continue
                 if current_modules.get(module_type) != top_version:
                     suggestions.append({
                         "type": "absorb",
@@ -119,6 +154,10 @@ def suggest_mutations(skill_name: str, skill_def: dict, fitness: float,
     for module_type, current_version in current_modules.items():
         variants = get_module_variants(registry, module_type)
         for variant in variants:
+            variant_key = f"{module_type}:{variant}"
+            # Skip if recently tried (prevents oscillation)
+            if variant_key in recently_tried:
+                continue
             if variant != current_version:
                 # Only suggest if not already suggested via absorption
                 already_suggested = any(
@@ -132,8 +171,13 @@ def suggest_mutations(skill_name: str, skill_def: dict, fitness: float,
                         "module": module_type,
                         "from_version": current_version,
                         "to_version": variant,
-                        "reason": f"Try alternative variant"
+                        "reason": f"Try alternative variant (not recently tried)"
                     })
+
+    # If all variants were recently tried, suggest waiting
+    if not suggestions and classification in ["underperforming", "failing"]:
+        # Could add a "cooldown" suggestion here in future
+        pass
 
     return suggestions
 
@@ -387,14 +431,34 @@ def cmd_apply():
             # Recompile skill
             if recompile_skill(skill_name):
                 print(f"  ✓ Mutation applied and recompiled")
+
+                # Post-mutation fitness verification
+                print(f"  ⏳ Verifying fitness change...")
+                new_evaluation = run_evaluate()
+                new_fitness = get_skill_fitness(new_evaluation, skill_name)
+
+                if new_fitness is not None:
+                    delta = new_fitness - fitness
+                    if delta > 0:
+                        print(f"  ✓ Fitness improved: {fitness:.2f} → {new_fitness:.2f} (+{delta:.2f})")
+                    elif delta < 0:
+                        print(f"  ⚠ Fitness dropped: {fitness:.2f} → {new_fitness:.2f} ({delta:.2f})")
+                        print(f"    Consider: python evolve.py rollback {skill_name}")
+                    else:
+                        print(f"  → Fitness unchanged: {fitness:.2f}")
+                else:
+                    new_fitness = fitness  # Use old if can't evaluate
+                    print(f"  ⚠ Could not verify fitness (using baseline)")
+
                 mutations_applied.append({
                     "skill": skill_name,
                     "old_fitness": fitness,
+                    "new_fitness": new_fitness,
                     **suggestion
                 })
 
-                # Write changelog
-                write_changelog(skill_name, [suggestion], fitness)
+                # Write changelog with new fitness
+                write_changelog(skill_name, [suggestion], fitness, new_fitness)
             else:
                 print(f"  ✗ Recompilation failed")
         else:

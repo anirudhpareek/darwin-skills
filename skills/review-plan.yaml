@@ -1,11 +1,11 @@
 name: review-plan
-version: 1.1.0
+version: 1.1.3
 description: Review implementation plans with staff-engineer perspective. Use when
   user asks to review a plan, critique an approach, get feedback on architecture,
   or asks "what do you think of this plan" or "is this approach solid".
 modules:
   input: v1
-  research: v2
+  research: v1
   structure: v1
   output: v2
   workflow: v1
@@ -91,5 +91,11 @@ core_prompt: '# Plan Review (Staff Engineer Perspective)
   - "Is this solving the right problem?"
 
   '
-fitness_history: []
-last_compiled: '2026-02-01T19:20:54Z'
+fitness_history:
+- timestamp: '2026-02-05T21:59:33Z'
+  mutation: "input: v1 \u2192 v2"
+- timestamp: '2026-02-08T03:31:20Z'
+  mutation: "input: v2 \u2192 v1"
+- timestamp: '2026-02-09T01:27:19Z'
+  mutation: "research: v2 \u2192 v1"
+last_compiled: '2026-02-09T01:27:19Z'

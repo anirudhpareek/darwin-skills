@@ -1,6 +1,6 @@
 ---
-description: Skill evolution system - analyze, evaluate, evolve, and discover skills. Use when user asks about skill fitness, wants to see skill stats, run evolution, check telemetry, discover new skills, or asks "how are my skills doing" or "evolve skills" or "find new skills".
-darwin_version: 1.2.0
+description: Monitors, evaluates, and evolves Claude Code skills using fitness metrics. Analyzes skill performance, suggests mutations for underperformers, and tracks evolution history. Triggers on "skill status", "fitness scores", "evolve skills", "discover skills", "how are my skills doing", "check telemetry".
+darwin_version: 1.3.0
 darwin_modules:
   input: v2
   research: v3
@@ -8,122 +8,104 @@ darwin_modules:
   output: v1
   workflow: v3
   validation: v3
+disable-model-invocation: true
 ---
 
-# Darwin - Skill Evolution & Discovery System
+# Darwin - Skill Evolution System
 
-Darwin monitors, evaluates, evolves, and discovers skills for Claude Code.
+Monitors, evaluates, and evolves Claude Code skills using fitness metrics.
 
-## Commands
+## Quick Reference
 
-**Usage:** `/darwin [command]`
+| Command | Script | Purpose |
+|---------|--------|---------|
+| `status` | `evolve.py status` | Fitness dashboard (default) |
+| `suggest` | `evolve.py suggest` | Preview mutations |
+| `evolve` | `evolve.py cycle` | Full evolution cycle |
+| `telemetry` | Read telemetry/*.json | View raw events |
+| `discover` | `discover.py fetch` | Find trending skills |
+| `install [name]` | `install-skill.sh` | Add external skill |
 
-| Command | Description |
-|---------|-------------|
-| `status` | Dashboard with fitness scores for all skills (default) |
-| `evaluate [skill]` | Deep analysis of a specific skill |
-| `evolve` | Run evolution cycle (suggest + apply mutations) |
-| `suggest` | Show mutation suggestions without applying |
-| `telemetry` | View raw recent telemetry events |
-| `compile [skill]` | Recompile skill from modules |
-| `discover` | **NEW** Fetch and show trending skills from skills.sh |
-| `install [skill]` | **NEW** Install external skill and add to tracking |
+## Evolution Workflow
 
----
+Copy this checklist to track progress:
 
-## Discovery Commands (NEW)
-
-### Command: `discover`
-Fetch trending skills from skills.sh and show recommendations based on your usage.
-```bash
-python3 ~/.claude/darwin/bin/discover.py fetch
+```
+Evolution Cycle:
+- [ ] Step 1: Check status (python3 ~/.claude/darwin/bin/evolve.py status)
+- [ ] Step 2: Review suggestions (python3 ~/.claude/darwin/bin/evolve.py suggest)
+- [ ] Step 3: Apply mutations (python3 ~/.claude/darwin/bin/evolve.py apply)
+- [ ] Step 4: Verify fitness improved (check changelog output)
+- [ ] Step 5: If fitness dropped, consider rollback
 ```
 
-Output shows:
-- Top recommended skills based on your usage patterns
-- Install counts from the community
-- One-line install commands
+## Command Details
 
-### Command: `install [skill-name]`
-Install an external skill and add it to Darwin tracking.
+### status (default)
 ```bash
-~/.claude/darwin/bin/install-skill.sh <skill-name-or-repo>
+python3 ~/.claude/darwin/bin/evolve.py status
 ```
+Shows fitness scores for all tracked skills with classification:
+- ★ Top performer (≥0.70)
+- ✓ Healthy (≥0.50)
+- ↓ Underperforming (≥0.35)
+- ✗ Failing (<0.35)
 
-Examples:
-- `/darwin install vercel-react-best-practices`
-- `/darwin install frontend-design`
-
-This will:
-1. Install via `npx skills add`
-2. Create Darwin YAML wrapper for tracking
-3. Add to evolution system
-
----
-
-## Evolution Commands
-
-### Command: `evolve`
-Run the evolution engine to improve underperforming skills.
-```bash
-python3 ~/.claude/darwin/bin/evolve.py cycle
-```
-
-### Command: `suggest`
-Show what mutations would be applied without changing anything.
+### suggest
 ```bash
 python3 ~/.claude/darwin/bin/evolve.py suggest
 ```
+Shows recommended mutations without applying. Mutations include:
+- **ABSORB**: Copy module from top performer
+- **MUTATE**: Try alternative module variant
 
-### Command: `compile [skill]`
-Recompile a skill from its module definition.
+### evolve
 ```bash
-python3 ~/.claude/darwin/bin/compile.py [skill]
+python3 ~/.claude/darwin/bin/evolve.py cycle
 ```
+Full cycle: evaluate → snapshot → apply mutations → verify fitness.
 
----
+### discover
+```bash
+python3 ~/.claude/darwin/bin/discover.py fetch
+```
+Fetches trending skills from skills.sh with install counts.
 
-## No Data Handling
+### install
+```bash
+~/.claude/darwin/bin/install-skill.sh <skill-name>
+```
+Installs skill and adds to Darwin tracking.
 
-If telemetry files are empty or missing, explain how to start collecting data:
-1. Start a NEW Claude session (hooks don't apply to current session)
-2. Use some skills: /plan, /commit, /techdebt
-3. Run /darwin status again
+## No Telemetry Data
 
+If status shows no data:
+1. Start a NEW Claude session (hooks activate on new sessions)
+2. Use skills: `/plan`, `/commit`, `/techdebt`
+3. Run `/darwin status` again
 
 ## Input
 
-**Scope:** $ARGUMENTS
+**Command:** $ARGUMENTS
 
-If no arguments provided, analyze the current project directory.
-
-
-## Context
-
-Proceed directly with the task. Only search if explicitly needed.
-
+If no arguments, defaults to `status`.
 
 ## Output Format
 
-Use ASCII dividers for sections:
 ```
 ═══════════════════════════════════════════════════
-TITLE: [Name]
+DARWIN STATUS
 ═══════════════════════════════════════════════════
 
-SECTION
+SKILL FITNESS
 ───────────────────────────────────────────────────
-Content here...
-
+ 1. /commit      ██████████ 0.91  ★
+ 2. /plan        ███████░░░ 0.72  ✓
 ═══════════════════════════════════════════════════
 ```
-
 
 ## Workflow
 
-Execute the action immediately. Only pause if:
-- Destructive operation detected
-- Ambiguity in requirements
-
-
-
+Execute immediately. Pause only if:
+- Mutation would affect top performer
+- No suggestions available (all variants tried)
